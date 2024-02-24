@@ -8,25 +8,84 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 
+const data = [
+  {
+    screen: 'Workout',
+    path: require('../../assets/json/Yoga-game.json')
+  },
+  {
+    screen: 'BubblePop',
+    path: require('../../assets/json/bubles-game.json')
+  },
+  {
+    screen: 'WordGuessGame',
+    path: require('../../assets/json/word-game.json')
+  },
+  {
+    screen: 'TicTacToe',
+    path: require('../../assets/json/tictactoe-game.json')
+  },
+  {
+    screen: 'JokesGenerator',
+    path: require('../../assets/json/joke-game.json')
+  },
+  {
+    screen: 'RockPaperScissor',
+    path: require('../../assets/json/sps-game.json')
+  },
 
-function DifferentActivities(params) {
-  const navigation = useNavigation()
-  const num_of_row = 3
+]
+
+const reccomendData=[
+  {
+    screen:'Music',
+    path: require('../../assets/json/Yoga-game.json')
+  }
+]
+
+function DifferentActivities() {
+  const navigation = useNavigation();
   return (
-    <View style={{ padding: 3, marginTop: 10 }}>
-    {Array.from({ length: num_of_row }, (_, index) => (
-      <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-        <Pressable onPress={() => navigation.navigate('JokesGenerator')} style={{ width: '48%' }}>
-          <Image source={require('../../assets/img/hospital.jpg')} resizeMode='cover' style={{ width: '100%', height: 190, borderRadius: 20 }} />
-        </Pressable>
-        <Pressable onPress={() => handlePress(index, 2)} style={{ width: '48%' }}>
-          <Image source={require('../../assets/img/hospital.jpg')} resizeMode='cover' style={{ width: '100%', height: 190, borderRadius: 20 }} />
-        </Pressable>
-      </View>
-    ))}
-  </View>
+    <View style={{ padding: 3, marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+      {data.map((item, index) => (
+        <Pressable key={index} onPress={() => navigation.navigate(item.screen)} style={{ borderColor: colorTheme.borderColor, width: '48%', marginBottom: 10, borderWidth: 1, borderRadius: 20, marginTop: 5 }}>
+          {item.path ?
+            <LottieView
+              source={item.path}
+              autoPlay
+              loop
+              style={{ width: 150, height: 150 }}
+            />
+            :
+            <Image source={require('../../assets/img/hospital.jpg')} resizeMode='cover' style={{ width: '100%', height: 190, borderRadius: 20 }} />
 
-  )
+          }
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
+function Reccommendations() {
+  const navigation = useNavigation();
+  return (
+    <View style={{ padding: 3, marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+      {reccomendData.map((item, index) => (
+        <Pressable key={index} onPress={() => navigation.navigate(item.screen)} style={{ borderColor: colorTheme.borderColor, width: '48%', marginBottom: 10, borderWidth: 1, borderRadius: 20, marginTop: 5 }}>
+          {item.path ?
+            <LottieView
+              source={item.path}
+              autoPlay
+              loop
+              style={{ width: 150, height: 150 }}
+            />
+            :
+            <Image source={require('../../assets/img/hospital.jpg')} resizeMode='cover' style={{ width: '100%', height: 190, borderRadius: 20 }} />
+          }
+        </Pressable>
+      ))}
+    </View>
+  );
 }
 
 export default function Activity() {
@@ -112,10 +171,10 @@ export default function Activity() {
             style={{ backgroundColor: colorTheme.secondaryColor, borderRadius: 10, marginTop: 15, width: '60%' }}>
             <Text style={[styles.bigText, { color: 'white', paddingHorizontal: 20, paddingVertical: 10, textAlign: 'center' }]}>CREATE A MEME</Text>
           </TouchableOpacity>
-          <Text style={[styles.bigText, { color: 'black', textAlign: 'right', marginTop: 10, fontSize: 23, fontWeight: '600' }]}>Quote of the day</Text>
-          <View style={{ backgroundColor: '#face1b', marginTop: 8, alignItems: 'center', justifyContent: 'center', borderRadius: 30 }}>
-            <Text style={[styles.smallText, { color: 'black', paddingVertical: 10, paddingHorizontal: 7, textAlign: 'center' }]}>{quote}</Text>
-          </View>
+        </View>
+        <View style={[styles.subContainer, { marginTop: 28, }]}>
+          <Text style={[styles.bigText, { textAlign: 'left', fontSize: 18, }]}>REFRESH YOUR MOOD</Text>
+          <Reccommendations />
         </View>
         <View style={[styles.subContainer, { marginTop: 28, }]}>
           <Text style={[styles.bigText, { textAlign: 'left', fontSize: 18, }]}>ACTIVITY TO CHANGE YOUR MOOD</Text>

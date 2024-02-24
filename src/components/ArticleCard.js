@@ -1,9 +1,15 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native'
 import React from 'react'
 
-export default function ArticleCard({ title, desc, image }) {
+export default function ArticleCard({ title, desc, image, setModal, modal,setBlogModalData }) {
+  function handleClick(params) {
+    setBlogModalData({title:title,desc:desc,img:image})
+    setModal(true)
+  }
   return (
-    <View style={styles.card}>
+    <Pressable
+      onPress={() => { handleClick() }}
+      style={styles.card}>
       <View style={{ flex: 1, flexDirection: 'row', margin: 15 }}>
         {image ?
           <Image source={{ uri: image }} style={styles.image} />
@@ -19,7 +25,7 @@ export default function ArticleCard({ title, desc, image }) {
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 
@@ -59,6 +65,6 @@ const styles = StyleSheet.create({
     width: '40%',
     height: '100%',
     marginRight: 5,
-    borderRadius:10
+    borderRadius: 10
   },
 })

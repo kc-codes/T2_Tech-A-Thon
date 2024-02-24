@@ -7,83 +7,83 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const IconName = [
     {
         name: 'cards-heart',
-        title: 'Cardiology'
+        title: 'Psychiatrist'
     },
     {
         name: 'tooth',
-        title: 'Dentist'
+        title: 'Psychologist'
     },
     {
         name: 'bone',
-        title: 'Orthopedic'
+        title: 'Therapist'
     },
     {
         name: 'brain',
-        title: 'Neurologist'
+        title: 'Counselor'
     },
     {
         name: 'ear-hearing',
-        title: 'Otologist'
+        title: 'PMHNP'
     },
     {
         name: 'stomach',
-        title: 'Gastroenologist'
+        title: 'PMHN'
     },
     {
         name: 'brain',
-        title: 'Rhinologist'
+        title: 'Neuropsychologist'
     },
     {
         name: 'stomach',
-        title: 'Utologist'
+        title: 'PPA'
     },
     {
         name: 'lungs',
-        title: 'Pulmonologist'
+        title: 'SAC'
     },
     {
         name: 'bone',
-        title: 'Hepatologist'
+        title: 'Art Therapist'
     },
     {
         name: 'stomach',
-        title: 'Gynecologist'
+        title: 'Music Therapist'
     },
     {
         name: 'skull',
-        title: 'Osteology'
+        title: 'RT'
     },
     {
         name: 'fingerprint',
-        title: 'Otology'
+        title: 'MFT'
     },
     {
         name: 'face-woman-profile',
-        title: 'Plastic Surgery'
+        title: 'School Counselor'
     },
     {
         name: 'seat-legroom-extra',
-        title: 'Radiologist'
+        title: 'FP'
     },
     {
         name: 'bone',
-        title: 'stomach'
+        title: 'Geriatric Psychiatrist'
     },
     {
         name: 'baby-carriage',
-        title: 'Pediatric'
+        title: 'CAP'
     },
     {
         name: 'flower-tulip',
-        title: 'Naturopalogist'
+        title: 'Development'
     },
     {
         name: 'flower',
-        title: 'Herbal'
+        title: 'Behavioral'
     },
     {
         name: 'account',
-        title: 'General'
+        title: 'TraumaTherapy'
     },
 
 ]

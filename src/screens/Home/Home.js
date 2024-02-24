@@ -1,6 +1,6 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Pressable, Dimensions, FlatList } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Pressable, Dimensions, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { colorTheme } from '../../constant'
+import { API_URL, colorTheme } from '../../constant'
 import DoctorCard from '../../components/DoctorCard'
 import ArticleCard from '../../components/ArticleCard'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -13,9 +13,19 @@ import Carousel from '../../components/Carousel'
 import Category from '../../components/Modal/CategoryModal'
 import TopDoctorModal from '../../components/Modal/TopDoctorModal'
 import TopHospitalModal from '../../components/Modal/TopHospitalModal'
-import HospitalProfileCard from '../../components/HospitalProfileCard'
+import AddYourTakModal from '../../components/Modal/AddTaskModal'
+import SeeAllTaskModal from '../../components/Modal/SeeAllTaskModal'
+import JournalModal from '../../components/Modal/JournalModal'
 import { sendSmsData } from '../../components/SendSMS'
 import { articlesServices } from '../../services/Article'
+import QuoteOfTheDay from '../../components/QuoteOfTheDay'
+import YoutubeVideos from '../../components/YoutubeVideos'
+import axios from 'axios'
+import { BlogServices } from '../../services/BlogsServices'
+import LottieView from 'lottie-react-native'
+import { YoutubeHomeData } from '../../assets/data/YoutubeData'
+import YoutubeModal from '../../components/Modal/YoutubeModal'
+import BlogScreenModal from '../../components/Modal/BlogScreenModal'
 
 const data = [
   {
@@ -52,6 +62,7 @@ function SendSOS(params) {
 
 }
 
+const SCORE_POINTER = 0
 
 export default function Home({ navigation }) {
 
@@ -65,6 +76,30 @@ export default function Home({ navigation }) {
   const [categoryModalVisible, setcategoryModalVisible] = useState(false);
   const [topDoctorModal, setTopDoctorModal] = useState(false);
   const [topHosPitalModal, setTopHospitalModal] = useState(false);
+  const [AddTaskModal, setAddTaskModal] = useState(false);
+  const [supportiveContent, setSupportiveContent] = useState(false);
+  const [seeAllTask, setSeeAllTask] = useState(false);
+  const [journalModal, setjournalModalModal] = useState(false);
+  const [score, setScore] = useState(0);
+  const [isBatchLoading, setisBatchLoading] = useState(true)
+  const [blogScreenModal, setBlogScreenModal] = useState(false)
+  const [ModalData, setBlogModalData] = useState({
+    title:'',
+    desc:'',
+    img:''
+  })
+  const [currentLevel, setCurrentLevel] = useState(0); // Initialize with level 0
+
+  const levels = [
+    { threshold: 150, source: require('../../assets/json/level-intial-batch.json') },
+    { threshold: 500, source: require('../../assets/json/level-0-batch.json') },
+    { threshold: 2000, source: require('../../assets/json/level-1-batch.json') },
+    { threshold: 5000, source: require('../../assets/json/level-2-batch.json') },
+    { threshold: 10000, source: require('../../assets/json/level-3-batch.json') },
+    { threshold: 20000, source: require('../../assets/json/level-5-batch.json') },
+    // Add more levels as needed
+  ];
+
 
   useEffect(() => {
     articlesServices.FetchArticles().then((
@@ -73,14 +108,26 @@ export default function Home({ navigation }) {
         setarticleLoading(true)
       }
     )).catch(err => { console.log('error fetching data'); })
+
+    BlogServices.getScore().then(
+      res => {
+        setScore(res.data[0].score)
+        setisBatchLoading(false)
+      }
+    ).catch()
   }, [])
 
+  useEffect(() => {
+    // Find the current level based on the user's score
+    const level = levels.findIndex(level => score < level.threshold);
+    setCurrentLevel(level === -1 ? levels.length - 1 : level); // If userScore exceeds the highest threshold, set to the last level
+  }, [score]);
 
-  // articlesServices.FetchArticles()
 
   return (
     <View style={styles.container}>
-      <Pressable
+      {/* here satrt sos  */}
+      {/* <Pressable
         onPress={() => {
           SendSOS()
         }}
@@ -88,7 +135,8 @@ export default function Home({ navigation }) {
         <View style={{ alignItems: 'center', height: 55, justifyContent: 'center' }}>
           <Text style={[styles.boldText, { color: 'white' }]}>SOS</Text>
         </View>
-      </Pressable>
+      </Pressable> */}
+      {/* end sos  */}
       <ScrollView contentContainerStyle={styles.subcontainer}>
         <>
           {modalVisible
@@ -125,8 +173,38 @@ export default function Home({ navigation }) {
               <TopHospitalModal modalVisible={topHosPitalModal} setModalVisible={setTopHospitalModal} />
               : null
           }
+          {
+            AddTaskModal
+              ?
+              <AddYourTakModal modalVisible={AddTaskModal} setModalVisible={setAddTaskModal} />
+              : null
+          }
+          {
+            seeAllTask
+              ?
+              <SeeAllTaskModal modalVisible={seeAllTask} setModalVisible={setSeeAllTask} />
+              : null
+          }
+          {
+            journalModal
+              ?
+              <JournalModal modalVisible={journalModal} setModalVisible={setjournalModalModal} />
+              : null
+          }
+          {
+            supportiveContent
+              ?
+              <YoutubeModal modalVisible={supportiveContent} setModalVisible={setSupportiveContent} />
+              : null
+          }
+          {
+            blogScreenModal
+              ?
+              <BlogScreenModal modalVisible={blogScreenModal} setModalVisible={setBlogScreenModal} ModalData={ModalData} />
+              : null
+          }
         </>
-        <View style={{ width: "90%", marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        <View style={{ width: "90%", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <View>
             <Text style={{ color: "gray" }}>Location</Text>
             <Pressable
@@ -139,12 +217,33 @@ export default function Home({ navigation }) {
             </Pressable>
           </View>
           <View
-            style={{ width: 50, height: 32, backgroundColor: "white", justifyContent: "center", alignItems: "center", borderRadius: 50, flexDirection: 'row' }}>
+            style={{ width: 80, height: 32, backgroundColor: "white", justifyContent: "center", alignItems: "center", borderRadius: 50, flexDirection: 'row' }}>
             <MaterialIcons name="videocam" color={colorTheme.primaryColor} size={25} style={{ marginRight: 10 }} onPress={() => { navigation.navigate("VideoCall") }} />
             <MaterialIcons name="notifications-active" color={colorTheme.primaryColor} size={25} style={{ marginRight: 10 }} onPress={() => setNotificationModal(true)} />
+            <FontAwesome name="pencil-square-o" color={colorTheme.primaryColor} size={25} style={{ marginRight: 10 }} onPress={() => setjournalModalModal(true)} />
           </View>
         </View>
-        <View style={{ width: '90%', marginBottom: 24, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        {isBatchLoading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <LottieView
+              source={levels[currentLevel].source} // Dynamically select the animation source based on the current level
+              autoPlay
+              loop
+              style={{ width: 100, height: 100, backgroundColor: 'white' }}
+            />
+            <View style={{ width: '60%' }}>
+              <Text
+                style={{ textAlign: 'center', fontSize: 18, color: 'black', fontWeight: 'bold', fontStyle: 'italic' }}
+                numberOfLines={2}
+              >
+                {`Congrats! You are level ${currentLevel} now`}
+              </Text>
+            </View>
+          </View>
+        )}
+        <View style={{ width: '90%', marginBottom: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <View style={styles.textInput}>
             <MaterialIcons name="search" color={colorTheme.primaryColor} size={25} />
             <TextInput
@@ -161,35 +260,57 @@ export default function Home({ navigation }) {
             <FontAwesome name="sliders" color="white" size={25} />
           </Pressable>
         </View>
-        {/* <View style={{ width: '100%', marginBottom: 20, flexDirection: 'row' }}>
-          <View style={{ height: 120, width: '10%', }}></View>
-          <View style={{ height: 120, width: '40%', backgroundColor: colorTheme.primaryColor, borderBottomLeftRadius: 100 }}></View>
-          <View style={{ height: 120, width: '50%', backgroundColor: colorTheme.primaryColor, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row' }}>
-            <View>
-              <Text style={[styles.boldText, { color: 'white', fontSize: 15, fontWeight: '500' }]}>Hello,</Text>
-              <Text style={[styles.boldText, { color: 'white', fontSize: 25, fontWeight: '500' }]}>Sharvesh</Text>
-            </View>
-            <Image source={require('../../assets/img/user.jpg')} resizeMode='cover' style={{
-              width: 60,
-              height: 60,
-              borderRadius: 150 / 2,
-              overflow: "hidden",
-              borderWidth: 2,
-              borderColor: 'white',
-              marginHorizontal: 10
-            }} />
-          </View>
+        {/* youtube webview  */}
+        {/* <View style={{ width: '90%', marginTop: 10, height: 600 }}>
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html: `
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/DbRXv5TXMEE?si=xbMISuEvM17MXKaP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              `,
+            }}
+            style={{ flex: 1 }}
+            onError={(error) => console.error('WebView error:', error)}
+          />
         </View> */}
+        {/* youtube webview ended */}
+        <View style={{ marginBottom: 15, width: '90%' }}>
+          <QuoteOfTheDay />
+        </View>
+        <View style={{ width: '90%', }}>
+          <View style={{ flexDirection: "row", justifyContent: 'space-between', padding: 10 }}>
+            <Text style={[styles.grayText, { color: 'black' }]}>Your Todos...</Text>
+            <Text onPress={() => { setSeeAllTask(true) }} style={[{ color: colorTheme.primaryColor, fontSize: 15 }]}>See All Tasks</Text>
+          </View>
+          <View style={{ borderWidth: 1, borderColor: colorTheme.borderColor, borderRadius: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
+              <Text style={[styles.smallText, { fontSize: 15, color: 'gray' }]}>TaskList for your chores!!!</Text>
+              <TouchableOpacity
+                onPress={() => { setAddTaskModal(true) }}
+                style={{ backgroundColor: colorTheme.primaryColor, justifyContent: 'center', alignItems: 'center', borderRadius: 30, elevation: 10 }}>
+                <MaterialIcons name="add" color={"white"} size={25} style={{ padding: 10 }} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <View style={{ width: '90%', flexDirection: "row", justifyContent: 'space-between', marginTop: 10 }}>
+          <Text style={[styles.grayText, {}]}>Supportive Content</Text>
+          <Text
+            onPress={() => { setSupportiveContent(true) }}
+            style={[{ color: colorTheme.primaryColor, fontSize: 15 }]}>See All</Text>
+        </View>
+        <Carousel data={YoutubeHomeData}>
+          <YoutubeVideos />
+        </Carousel>
         <View style={{ width: '90%', flexDirection: "row", justifyContent: 'space-between' }}>
           <Text style={[styles.grayText, { marginBottom: 8, }]}>Top Specialist</Text>
           <Text
             onPress={() => { setTopDoctorModal(true) }}
             style={[{ color: colorTheme.primaryColor, fontSize: 15 }]}>See All</Text>
         </View>
-        <Carousel data={data}>
+        <Carousel data={data} autoPlay>
           <DoctorCard isNavigate />
         </Carousel>
-
         <View style={{}}>
           <View style={{ width: '90%', flexDirection: "row", justifyContent: 'space-between', padding: 10 }}>
             <Text style={[styles.grayText, { marginBottom: 8, }]}>Doctor Speciality</Text>
@@ -210,15 +331,6 @@ export default function Home({ navigation }) {
             </View>
           </View>
         </View>
-        <View>
-          <View style={{ width: '90%', flexDirection: "row", justifyContent: 'space-between', padding: 10 }}>
-            <Text style={[styles.grayText, { marginBottom: 8, }]}>Top Hospitals</Text>
-            <Text onPress={() => { setTopHospitalModal(true) }} style={[{ color: colorTheme.primaryColor, fontSize: 15 }]}>See All</Text>
-          </View>
-        </View>
-        <Carousel data={data}>
-          <HospitalProfileCard isNavigate />
-        </Carousel>
         <View style={[{ width: "90%", }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <TouchableOpacity
@@ -238,9 +350,12 @@ export default function Home({ navigation }) {
             </TouchableOpacity>
           </View>
           {articleLoading ? article.map((obj, index) => (
-            <ArticleCard key={index} title={obj.title} desc={obj.description} image={obj.urlToImage} />
+            <ArticleCard setBlogModalData={setBlogModalData} key={index} title={obj.title} desc={obj.description} image={obj.urlToImage} modal={blogScreenModal} setModal={setBlogScreenModal}/>
           )) :
-            <Text>Loading...</Text>}
+            <View style={{ alignItems: 'center', marginBottom: 20 }}>
+              <ActivityIndicator size="large" />
+            </View>
+          }
         </View>
       </ScrollView >
     </View>

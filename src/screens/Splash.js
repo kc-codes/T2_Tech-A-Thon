@@ -13,10 +13,10 @@ export default function App({navigation}) {
   return (
     <View style={styles.container}> 
       <LottieView
-        source={require('../assets/json/doctor.json')}
+        source={require('../assets/json/mental_splash.json')}
         autoPlay
         loop
-        style={{width:150,height:150}}
+        style={{width:300,height:300}}
       />
     </View>
   )

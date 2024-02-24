@@ -1,12 +1,12 @@
-import { StyleSheet, View, Dimensions, FlatList, Pressable } from 'react-native';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { StyleSheet, View, Dimensions, FlatList, Pressable } from 'react-native';
 import { colorTheme } from '../constant';
 import DoctorCard from './DoctorCard';
 
 const DOT_SIZE = 8;
 const { width } = Dimensions.get('window');
 
-export default function Carousel({ data, children: Children, childrenStyle }) {
+export default function Carousel({ data, autoPlay = false, children: Children, childrenStyle }) {
   const [indexDot, setIndexDot] = useState(0);
   const flatListRef = useRef(null);
 
@@ -15,18 +15,20 @@ export default function Carousel({ data, children: Children, childrenStyle }) {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Increment indexDot to move to the next item
-      setIndexDot((prevIndex) => (prevIndex + 1) % data.length);
-      // Scroll to the next item
-      flatListRef.current?.scrollToIndex({
-        index: (indexDot + 1) % data.length,
-        animated: true,
-      });
-    }, 3000); // Adjust the interval (in milliseconds) based on your preference
+    let interval;
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [data.length, indexDot]);
+    if (autoPlay) {
+      interval = setInterval(() => {
+        setIndexDot((prevIndex) => (prevIndex + 1) % data.length);
+        flatListRef.current?.scrollToIndex({
+          index: (indexDot + 1) % data.length,
+          animated: true,
+        });
+      }, 3000); // Adjust the interval (in milliseconds) based on your preference
+    }
+
+    return () => clearInterval(interval);
+  }, [autoPlay, data.length, indexDot]);
 
   const renderPagination = useMemo(() => {
     return (
@@ -49,7 +51,7 @@ export default function Carousel({ data, children: Children, childrenStyle }) {
 
   const renderItem = ({ item }) => (
     <Pressable style={styles.wrapItem}>
-      <View style={{ ...styles.item, width: '100%' }}>{Children}</View>
+      <View style={{ ...styles.item, width: '100%' }}>{Children && React.cloneElement(Children, { item: item })}</View>
     </Pressable>
   );
 

@@ -18,6 +18,7 @@ const colorTheme = {
     iconBackGroundColor:"#F5FAFF",
     iconWithBlueBackGround:"#5c9cf7",
     brown: '#8d5845',
+    blue:'#407CE2'
 
 }
 
@@ -38,9 +39,11 @@ const blueText = {
 }
 
 const API_URL='https://telehealth.cyclic.app/api'
+const API_URL_AIML='http://127.0.0.1:8000/'
+
 
 const HEALTH_NEWS_API_KEY='0505bf26946c4c4f8804d1e91674edde'
 
 
 
-export {  blackText, grayText, blueText,colorTheme,API_URL,HEALTH_NEWS_API_KEY }
+export {  blackText, grayText, blueText,colorTheme,API_URL,HEALTH_NEWS_API_KEY ,API_URL_AIML}

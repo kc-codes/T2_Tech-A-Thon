@@ -35,6 +35,9 @@ import TicTacToe from '../Activity/Tic-Tac-Toe'
 import WordGuessGame from '../Activity/WordGuessGame'
 import RockPaperScissor from '../Activity/RockPaperScissor'
 import JokesGenerator from '../Activity/JokesGenerator'
+import BubblePop from '../Activity/BubblePop'
+import Workout from '../Activity/Workout'
+import Music from '../Activity/Music'
 
 const Stack = createNativeStackNavigator()
 
@@ -76,6 +79,9 @@ export default function App() {
         <Stack.Screen name='WordGuessGame' component={WordGuessGame} options={{ headerShown: false }} />
         <Stack.Screen name='RockPaperScissor' component={RockPaperScissor} options={{ headerShown: false }} />
         <Stack.Screen name='JokesGenerator' component={JokesGenerator} options={{ headerShown: false }} />
+        <Stack.Screen name='BubblePop' component={BubblePop} options={{ headerShown: false }} />
+        <Stack.Screen name='Workout' component={Workout} options={{ headerShown: false }} />
+        <Stack.Screen name='Music' component={Music} options={{ headerShown: false }} />
       </Stack.Navigator>
   )
 }

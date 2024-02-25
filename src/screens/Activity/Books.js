@@ -1,23 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,ScrollView } from 'react-native';
 import { blackText, blueText, colorTheme, grayText } from '../../constant';
 import Header from '../../components/Header';
+import WebView from 'react-native-webview';
+import { bookData } from '../../assets/data/BooksData';
 
-export default App = () => {
+export default Books = () => {
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <Header leftIconName header={'Your Profile'} titleMargin={30} />
+                <Header leftIconName header={'Read Books'} titleMargin={30} />
             </View>
             {/* Main Content */}
-            <View style={styles.content}>
-                <Text>Main Content Goes Here</Text>
-            </View>
+            <ScrollView style={styles.content}>
+                {bookData.map((data, index) => (
+                    <View key={index} style={{ width: '100%', marginTop: 20, height: 250, borderWidth: 1, borderRadius: 10, borderColor: colorTheme.borderColor }}>
+                        <WebView
+                            originWhitelist={['*']}
+                            source={{
+                                uri: data.link
+                            }}
+                            style={{ flex: 1, }}
+                            onError={(error) => console.error('WebView error:', error)}
+                        />
+                    </View>
+                ))}
+
+            </ScrollView>
 
             {/* Footer */}
             <View style={styles.footer}>
-                <Text style={styles.footerText}>Footer</Text>
             </View>
         </View>
     );
@@ -25,25 +38,25 @@ export default App = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor:colorTheme.appBackGroundColor,
+        backgroundColor: colorTheme.appBackGroundColor,
         flex: 1,
         justifyContent: 'space-between',
     },
-    header:{
-        width:'90%',
-        alignSelf:'center',
-        marginTop:5
+    header: {
+        width: '90%',
+        alignSelf: 'center',
+        marginTop: 5
     },
     content: {
         flex: 1,
-        width:'90%',
-        alignSelf:'center'
+        width: '90%',
+        alignSelf: 'center'
     },
     footer: {
         padding: 10,
         alignItems: 'center',
-        width:'90%',
-        alignSelf:'center'
+        width: '90%',
+        alignSelf: 'center'
     },
     bigText: {
         fontSize: blackText.fontSize,

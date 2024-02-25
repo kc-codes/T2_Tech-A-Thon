@@ -1,9 +1,10 @@
-import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { blackText, blueText, colorTheme, grayText } from '../../constant'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import UnderLine from '../UnderLine'
 import LocationCard from '../LocationCard'
+import WebView from 'react-native-webview'
 
 const LocationModal = ({ modalVisible, setModalVisible }) => {
   const [search, setSearch] = useState('')
@@ -16,7 +17,7 @@ const LocationModal = ({ modalVisible, setModalVisible }) => {
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       }}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <Pressable
             style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
@@ -46,8 +47,28 @@ const LocationModal = ({ modalVisible, setModalVisible }) => {
           <LocationCard />
           <LocationCard />
           <LocationCard />
+          <View style={{ width: '100%', marginTop: 10, height: 600 }}>
+            <WebView
+              originWhitelist={['*']}
+              source={{
+                html: `
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15053.894860220578!2d72.8395422!3d19.3919278!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1696074814477!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style="border:0;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              `,
+              }}
+              style={{ flex: 1 }}
+              onError={(error) => console.error('WebView error:', error)}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 };

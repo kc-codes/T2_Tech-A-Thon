@@ -21,6 +21,7 @@ import CancelBooking from '../AppointMents/CancelBooking'
 import RescheduledAppointment from '../AppointMents/ReschedledAppointment'
 import EditProfile from '../Profile/EditProfile'
 import Settings from '../Profile/Settings'
+import CheckMood from '../Profile/CheckMood'
 import PasswordManager from '../Profile/PasswordManager'
 import PrivacyPolicy from '../Profile/PrivacyPolicy'
 import HelpCenter from '../Profile/HelpCenter'
@@ -38,6 +39,11 @@ import JokesGenerator from '../Activity/JokesGenerator'
 import BubblePop from '../Activity/BubblePop'
 import Workout from '../Activity/Workout'
 import Music from '../Activity/Music'
+import Books from '../Activity/Books'
+import ChatBot from '../Chat/ChatBot'
+import Survey from '../Survey/Survey'
+import HowYourDay from '../Survey/HowYourDay'
+import Helpless from '../Survey/Helpless'
 
 const Stack = createNativeStackNavigator()
 
@@ -82,6 +88,12 @@ export default function App() {
         <Stack.Screen name='BubblePop' component={BubblePop} options={{ headerShown: false }} />
         <Stack.Screen name='Workout' component={Workout} options={{ headerShown: false }} />
         <Stack.Screen name='Music' component={Music} options={{ headerShown: false }} />
+        <Stack.Screen name='Books' component={Books} options={{ headerShown: false }} />
+        <Stack.Screen name='ChatBot' component={ChatBot} options={{ headerShown: false }} />
+        <Stack.Screen name='CheckMood' component={CheckMood} options={{ headerShown: false }} />
+        <Stack.Screen name='Survey' component={Survey} options={{ headerShown: false }} />
+        <Stack.Screen name='HowYourDay' component={HowYourDay} options={{ headerShown: false }} />
+        <Stack.Screen name='Helpless' component={Helpless} options={{ headerShown: false }} />
       </Stack.Navigator>
   )
 }

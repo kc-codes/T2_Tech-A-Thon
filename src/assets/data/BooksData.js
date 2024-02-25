@@ -1,0 +1,20 @@
+export const bookData=[
+    {
+        link:'https://www.google.co.in/books/edition/Mindset/R0-eBAAAQBAJ?hl=en&gbpv=0'
+    },
+    {
+        link:'https://www.google.co.in/books/edition/The_7_Habits_of_Highly_Effective_People/0XupDAAAQBAJ?hl=en&gbpv=0'
+    },
+    {
+        link:'https://www.google.co.in/books/edition/The_Subtle_Art_of_Not_Giving_a_F_ck/yng_CwAAQBAJ?hl=en&gbpv=0'
+    },
+    {
+        link:"https://www.google.co.in/books/edition/The_Power_of_Now/sQYqRCIhFAMC?hl=en&gbpv=0"
+    },
+    {
+        link:"https://www.google.co.in/books/edition/The_Alchemist/FzVjBgAAQBAJ?hl=en&gbpv=0"
+    },
+    {
+        link:"https://www.google.co.in/books/edition/Atomic_Habits/XfFvDwAAQBAJ?hl=en"
+    },
+]

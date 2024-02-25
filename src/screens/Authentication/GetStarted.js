@@ -19,7 +19,7 @@ export default function Template({  }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.subContainer}>
-                <LottieView source={require("../../assets/json/signup.json")} autoPlay loop style={{ width: 360, height: 350, }} />
+                <LottieView source={require("../../assets/json/Login.json")} autoPlay loop style={{ width: 360, height: 350, }} />
             </View>
             <View style={styles.subContainer}>
 
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
         backgroundColor: colorTheme.primaryColor,
         borderRadius: 250,
         position: 'absolute',
-        top: "10%",
-        right: "-15%",
+        top: -15,
+        left: "-15%",
     },
     bubble3: {
         width: 350,

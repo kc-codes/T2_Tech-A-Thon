@@ -16,5 +16,6 @@ export default function App() {
         </Provider>
     )
 }
+// "react-native-webrtc": "^1.94.2",
 
 const styles = StyleSheet.create({})

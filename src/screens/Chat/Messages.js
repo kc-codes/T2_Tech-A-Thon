@@ -141,7 +141,7 @@ export default function Message() {
                     message.map((data, index) => {
                         return (
                             <View key={index}>
-                                <MessageBox data={data} isUser />
+                                <MessageBox data={data} />
                             </View>
                         )
                     })}

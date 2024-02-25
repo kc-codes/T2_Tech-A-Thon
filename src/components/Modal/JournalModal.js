@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, Image, TouchableOpacity, ActivityIndicator, } from 'react-native';
+import { View, Text, StyleSheet, Modal, Image, TouchableOpacity, ActivityIndicator, ScrollView, } from 'react-native';
 import { API_URL, blackText, blueText, colorTheme, grayText } from '../../constant';
 import Header from '../Header';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -44,7 +44,7 @@ const JournalModal = ({ modalVisible, setModalVisible }) => {
         return date.split('T')[0]
     }
     function SplitTime(date) {
-        return date.split('T')[1].substring(0,5)
+        return date.split('T')[1].substring(0, 5)
     }
     return (
         <Modal
@@ -55,6 +55,11 @@ const JournalModal = ({ modalVisible, setModalVisible }) => {
                 setModalVisible(!modalVisible);
             }}>
             <View style={styles.container}>
+                <TouchableOpacity
+                    onPress={() => { setaddJournal(true) }}
+                    style={{ backgroundColor: colorTheme.accentColor, width: 70, height: 70, position: 'absolute', bottom: 0, right: 30, borderRadius: 50, justifyContent: 'center', alignItems: 'center',zIndex:2, }}>
+                    <MaterialIcons size={40} color={'white'} name={'add'} />
+                </TouchableOpacity>
                 <>
                     {
                         addJournal
@@ -63,7 +68,7 @@ const JournalModal = ({ modalVisible, setModalVisible }) => {
                             : null
                     }
                 </>
-                <View style={styles.content}>
+                <ScrollView style={styles.content}>
                     {
                         isLoading ?
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -102,14 +107,9 @@ const JournalModal = ({ modalVisible, setModalVisible }) => {
                                         </View>
                                     </View>
                                 ))}
-                                <TouchableOpacity
-                                    onPress={() => { setaddJournal(true) }}
-                                    style={{ backgroundColor: colorTheme.accentColor, width: 70, height: 70, position: 'absolute', bottom: 0, right: 30, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                                    <MaterialIcons size={40} color={'white'} name={'add'} />
-                                </TouchableOpacity>
                             </>
                     }
-                </View>
+                </ScrollView>
                 {/* Footer */}
                 <View style={styles.footer}>
                 </View>

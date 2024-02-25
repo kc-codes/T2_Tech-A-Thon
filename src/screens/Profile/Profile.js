@@ -48,6 +48,11 @@ const profileIcon = [
     screen: 'OfflineVideo'
   },
   {
+    name: 'sticker-emoji',
+    title: 'Check Your Mood',
+    screen: 'CheckMood'
+  },
+  {
     name: 'account',
     title: 'Settings',
     screen: 'Settings'
@@ -61,6 +66,11 @@ const profileIcon = [
     name: 'lock',
     title: 'Privacy Policy',
     screen: 'PrivacyPolicy'
+  },
+  {
+    name: 'share-outline',
+    title: 'Take Survey',
+    screen: 'Survey'
   },
 ]
 

@@ -182,4 +182,28 @@ async function SentimentRequest(query) {
     })
 }
 
-export const BlogServices = { PostBlog, PostTask, DeleteTask, PostNotes, getScore, PostScore,SentimentRequest }
+
+async function getMySentiment() {
+    // console.log(typeof priority);
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVjZmM2MDMwNjZlMjIwNjZlN2ZjOGRlIn0sImlhdCI6MTcwODExNjM0NX0.DnzbQIqxXVVhzZU741LFUXD33UpEBxAt6lbgAPRHCwM'
+    const config = {
+        headers: {
+            'auth-token': token,
+        }
+    }
+
+    return new Promise((resolve, reject) => {
+        axios.get(`${API_URL}/sentiments/fetchmysentiments`,config)
+            .then(async (response) => {
+                try {
+                    console.log(response.data);
+                    // console.log(response);
+                    resolve(response)
+                } catch (e) { reject(e) }
+            }).catch((err) => {
+                console.log(err.response.data);
+                reject(err)
+            })
+    })
+}
+export const BlogServices = { PostBlog, PostTask, DeleteTask, PostNotes, getScore, PostScore,SentimentRequest,getMySentiment }

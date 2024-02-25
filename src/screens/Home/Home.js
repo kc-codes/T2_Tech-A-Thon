@@ -84,9 +84,9 @@ export default function Home({ navigation }) {
   const [isBatchLoading, setisBatchLoading] = useState(true)
   const [blogScreenModal, setBlogScreenModal] = useState(false)
   const [ModalData, setBlogModalData] = useState({
-    title:'',
-    desc:'',
-    img:''
+    title: '',
+    desc: '',
+    img: ''
   })
   const [currentLevel, setCurrentLevel] = useState(0); // Initialize with level 0
 
@@ -126,6 +126,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+
       {/* here satrt sos  */}
       {/* <Pressable
         onPress={() => {
@@ -137,6 +138,16 @@ export default function Home({ navigation }) {
         </View>
       </Pressable> */}
       {/* end sos  */}
+
+      <Pressable
+        onPress={() => {
+          // SendSOS()
+        }}
+        style={styles.fixedComponent}>
+        <View style={styles.iconContainer}>
+          <FontAwesome5 name="robot" color={"white"} size={30} onPress={() => navigation.navigate('ChatBot')} />
+        </View>
+      </Pressable>
       <ScrollView contentContainerStyle={styles.subcontainer}>
         <>
           {modalVisible
@@ -350,7 +361,7 @@ export default function Home({ navigation }) {
             </TouchableOpacity>
           </View>
           {articleLoading ? article.map((obj, index) => (
-            <ArticleCard setBlogModalData={setBlogModalData} key={index} title={obj.title} desc={obj.description} image={obj.urlToImage} modal={blogScreenModal} setModal={setBlogScreenModal}/>
+            <ArticleCard setBlogModalData={setBlogModalData} key={index} title={obj.title} desc={obj.description} image={obj.urlToImage} modal={blogScreenModal} setModal={setBlogScreenModal} />
           )) :
             <View style={{ alignItems: 'center', marginBottom: 20 }}>
               <ActivityIndicator size="large" />
@@ -425,15 +436,22 @@ const styles = StyleSheet.create({
   fixedComponent: {
     position: 'absolute',
     bottom: 30,
-    width: '15%',
-    // height:50,
-    backgroundColor: 'red',
-    zIndex: 1,
-    left: 30,
-    borderRadius: 30,
-    opacity: 0.7
-
-    // Add any other styling properties you need for your fixed component
+    width: 80,
+    height: 80,
+    backgroundColor: colorTheme.primaryColor,
+    zIndex: 20,
+    right: 30,
+    borderRadius: 50, // half of width and height to make it circular
+    opacity: 2,
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+  },
+  iconContainer: {
+    width: 60, // Adjust the width and height of the icon container as needed
+    height: 60,
+    borderRadius: 30, // half of width and height to make it circular
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
 })

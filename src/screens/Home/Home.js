@@ -97,7 +97,6 @@ export default function Home({ navigation }) {
     { threshold: 5000, source: require('../../assets/json/level-2-batch.json') },
     { threshold: 10000, source: require('../../assets/json/level-3-batch.json') },
     { threshold: 20000, source: require('../../assets/json/level-5-batch.json') },
-    // Add more levels as needed
   ];
 
 

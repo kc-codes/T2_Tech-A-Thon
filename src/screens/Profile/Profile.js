@@ -1,4 +1,4 @@
-import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { colorTheme, blackText, blueText, grayText } from '../../constant'
 import Header from '../../components/Header'
@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import UnderLine from '../../components/UnderLine'
 import { useNavigation } from '@react-navigation/native'
 import Logout from './LogOut'
+import { sendSmsData } from '../../components/SendSMS'
 
 function InfoCard({ iconName, title, isNavigate, navigateTo }) {
   const navigation = useNavigation()
@@ -67,6 +68,7 @@ const profileIcon = [
     title: 'Privacy Policy',
     screen: 'PrivacyPolicy'
   },
+
   {
     name: 'share-outline',
     title: 'Take Survey',
@@ -74,10 +76,27 @@ const profileIcon = [
   },
 ]
 
+const SMSDATA = [
+  {
+    phone: '9082222597',
+    msg: "Hello i am feeling low i need consultancy"
+  },
+  {
+    phone: '9869852633',
+    msg: "Hello i am feeling low i need consultancy"
+  },
+]
 
 export default function Profile() {
   const [modalVisible, setModalVisible] = useState(false);
-  const navigatation=useNavigation()
+  const navigatation = useNavigation()
+
+  function SendSOS(params) {
+    sendSmsData(SMSDATA)
+
+  }
+
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.subContainer}>
@@ -86,7 +105,7 @@ export default function Profile() {
           <View>
             <Image source={require('../../assets/img/user.jpg')} resizeMode='contain' style={styles.image} />
             <View style={{ position: "absolute", bottom: 0, right: 0, backgroundColor: colorTheme.primaryColor, borderRadius: 40 }}>
-              <MaterialCommunityIcons name={'pencil-plus'} color={"white"} size={25} style={{ padding: 5 }} onPress={()=>navigatation.navigate('LoginChoice')} />
+              <MaterialCommunityIcons name={'pencil-plus'} color={"white"} size={25} style={{ padding: 5 }} onPress={() => navigatation.navigate('LoginChoice')} />
             </View>
           </View>
           <Text style={[styles.bigText, { marginTop: 10 }]}>Esther Howard</Text>
@@ -94,6 +113,15 @@ export default function Profile() {
         {profileIcon.map((_, index) => (
           <InfoCard iconName={_.name} title={_.title} key={index} isNavigate navigateTo={_.screen} />
         ))}
+        <TouchableOpacity
+          onPress={() => { SendSOS() }}
+          style={{ flexDirection: "row", padding: 10 }}>
+          <MaterialIcons name={'sos'} color={colorTheme.primaryColor} size={23} />
+          <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: "center", width: '90%', paddingHorizontal: 10 }}>
+            <Text style={styles.bigText}>(SOS)   </Text>
+            <MaterialIcons name={'arrow-forward-ios'} color={colorTheme.primaryColor} size={23} />
+          </View>
+        </TouchableOpacity>
         <Pressable
           onPress={() => { setModalVisible(true) }}
           style={{ flexDirection: "row", padding: 10 }}>

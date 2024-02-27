@@ -1,8 +1,11 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
+## PPT Link: [Canva](https://www.canva.com/design/DAF9rt3wpq8/Px7K8Cc2Kbg9agfPYeVuqg/edit?utm_content=DAF9rt3wpq8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+
 
 ## Step 1: Start the Metro Server
 
